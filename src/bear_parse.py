@@ -2,6 +2,7 @@ import bear_tokenize
 
 from bear_tokens import *
 
+
 _grammar_rules = {}
 class GrammarRule:
     def __init__(self, name):
@@ -152,11 +153,11 @@ def parse(input_str):
                 skip_next = False
                 continue
 
+            # if the last element was never paired, add it to the next level up
             if i == (len(last_iter) - 1):
                 next_iter.append(last_iter[i])
                 next_children.append([i])
                 continue
-
 
             symbol1, symbol2 = last_iter[i], last_iter[i + 1]
             producing_rules = find_producing_rules(symbol1, symbol2)
@@ -171,6 +172,6 @@ def parse(input_str):
         prod_tree.append(map(expand_symbol, next_iter))
         children.append(next_children)
     
-    # We have here a vert rudimentary parse tree
+    # We have here a very rudimentary parse tree
     prod_tree.reverse()
-    return prod_tree
+    return (prod_tree, children)
